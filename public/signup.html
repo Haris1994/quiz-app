@@ -21,13 +21,13 @@
                 <form method="POST" id="signup-form" class="signup-form">
                     <h2>Sign up </h2>
                     <div class="form-group">
-                        <input type="text" class="form-input" name="name" id="name" placeholder="Your Name"/>
+                        <input type="text" class="form-input" name="name" id="signup_name" placeholder="Your Name"/>
                     </div>
                     <div class="form-group">
-                        <input type="email" class="form-input" name="email" id="email" placeholder="Email"/>
+                        <input type="email" class="form-input" name="email" id="signup_email" placeholder="Email"/>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-input" name="password" id="password" placeholder="Password"/>
+                        <input type="text" class="form-input" name="password" id="signup_password" placeholder="Password"/>
                         <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
                     </div>
                     <div class="form-group">
@@ -35,17 +35,18 @@
                         <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
                     </div>
                     <div class="form-group">
-                        <input type="submit" name="submit" id="submit" class="form-submit submit" value="Sign up"/>
-                        <a href="#" class="submit-link submit">Sign in</a>
+                        <input type="submit" name="submit" id="submit" onclick="dataValidation()" class="form-submit submit" value="Sign up"/>
+                        <a href="/index.html" class="submit-link submit">Sign in</a>
                     </div>
                 </form>
             </div>
         </div>
 
     </div>
-
+  
     <!-- JS -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="js/signup.js"></script>
+    <script type="text/javascript" src="vendor/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="js/validation.js"></script>
+    <script type="text/javascript" src="js/signup.js"></script>
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

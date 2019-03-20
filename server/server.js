@@ -20,17 +20,27 @@ const app = express();
 app.use(express.static(publicPath));
 app.use(bodyParser.json());
 
-app.post('/register', (req,res) => {
+app.post('/register', function(req,res) {
     let body = _.pick(req.body, ['name', 'email','password']);
     let user = new User(body);
 
+
         user.save().then(() => {
-            console.log('Ho gaya');
             res.status(200).send(user);
         }).catch ((e) => {
             res.status(400).send(e);
-        })
-    
+        });   
+});
+
+app.post('/login' , function(req,res){
+    let body = _.pick(req.body , ['email','password']);
+
+
+    User.findByCredentials(body.email, body.password).then((user) => {
+        res.status(200).send(user);
+    }).catch((e) => {   
+        res.status(400).send(e);
+    });
 })
 
 
