@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/Main.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/validation.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script>
+        window.onload = function() {
+    
+    what();
+    
+    function what() {
+        document.getElementById('show-name').innerHTML = (window.localStorage.getItem('name'));
+        document.getElementById('show-email').innerHTML = (window.localStorage.getItem('email'));
+        document.getElementById('show').innerHTML = ('Hi, '+ window.localStorage.getItem('name')+'!');
+        document.getElementsByName('changeEmail')[0].value=window.localStorage.getItem('email');
+        document.getElementsByName('changeName')[0].value=window.localStorage.getItem('name');
+    };
+    
+    }
+
+      </script>
+</head>
+<body>
+
+    <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="navbar-header">
+            <a class="navbar-brand">Quiz 1.0</a>
+          </div>
+        <div class="navbar-menu-wrapper d-flex align-items-center">
+            <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
+                <li class="nav-item">
+    
+                    <a href="./courses.html" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-address-card"></i>About us</a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a href="{{url_for('category.showCat')}}" class="nav-link">
+                        <i class="fas fa-th"></i>Categories and post detail</a>
+                </li> -->
+            </ul>
+            <ul class="navbar-nav navbar-nav-right">
+    
+                <li class="nav-item dropdown d-none d-xl-inline-block">
+                    <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown"
+>
+                        <span class="profile-text" id="show"></span>
+                        <i style="font-size: smaller" class="fas fa-chevron-down"></i>
+                    
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown navbar-right" aria-labelledby="UserDropdown">
+                        <a class="dropdown-item" onclick="signOut()">
+                            Sign Out
+                        </a>
+                    </div>
+                    </a>
+                </li>
+            </ul>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                    data-toggle="offcanvas">
+                <span class="icon-menu"></span>
+            </button>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="sawad-da-kam">
+        <div class="media">
+            <img class="rounded-circle account-img" src="images/container-bg.png">
+            <!--<img class="rounded-circle account-img" src="{{ url_for('static',filename='profile_pics/flower.jpg') }}">-->
+            <div class="media-body">
+                <h2 class="account-heading" id="show-name"></h2>
+                <p class="text-secondary" id="show-email"></p>
+                <form id="AwesomeForm" action="/user/photo" enctype="multipart/form-data" method="post">
+                    <div>
+                    <input type="file" name="photo"></button>
+                    <input id ="formName" type="text" name ="name" style="width: 0px; height: 0px;">
+                    <button id="SubmitAwesomeForm" value="Upload photo">Upload Photo</button>
+                    </div>
+                </form>
+                    <!-- <input type="file" id="filename" name="filename" />
+                    <input type="submit" id="submitButton" onclick="photoConversion()" name="submitButton" value="Upload Photo"/> -->
+            </div>
+        </div>               
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Update account info</legend>
+                    <div class="form-group">
+                            <label for="usr">Name:</label>
+                            <input id ="changeName" type="text" name ="changeName">
+                        <div class="invalid-feedback">                            
+                            <span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input id ="changeEmail" type="text" name ="changeEmail">
+                        <div class="invalid-feedback">
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                        <button id="SubmitForm" onclick="dataUpdate()">Update Information</button> 
+                </div>
+
+        </div>
+        </div>
+        </body>
+        </html>
+<script>
+document.getElementById("formName").value = window.localStorage.getItem("name")
+console.log("yaay2")
+</script>

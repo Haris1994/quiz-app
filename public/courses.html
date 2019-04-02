@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/validation.js"></script>
+  <script>
+    window.onload = function() {
+
+what();
+
+function what() {
+    document.getElementById('show').innerHTML = ('Hi, '+ window.localStorage.getItem('name')+'!');
+};
+
+}
+  </script>
+  <link rel="stylesheet" href="/css/courses.css">
+</head>
+<body>
+        <!-- <nav class="navbar navbar-inverse" >
+                <div class="container-fluid">
+                  <div class="navbar-header">
+                    <a class="navbar-brand">Quiz 1.0</a>
+                  </div>
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                  </ul>
+                  <ul class="nav navbar-nav navbar-right">         
+                            <p class="navbar-btn">
+                              <uL>
+                                  <button type="button" class="btn btn-default" id="show" data-toggle="tooltip" data-html="true" title="Edit Profile">
+                                  </button>
+                                <a onclick="signOut()" class="btn btn-default" id="signout">Sign out</a>
+                              </ul>
+                            </p>
+                        </ul>
+                </div>
+              </nav> -->
+              <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+                  <!-- <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
+                      <a class="navbar-brand brand-logo" href="{{ url_for('main.home')}}">
+              
+                      </a>
+              
+                  </div> -->
+                  <div class="navbar-header">
+                      <a class="navbar-brand">Quiz 1.0</a>
+                    </div>
+                  <div class="navbar-menu-wrapper d-flex align-items-center">
+                      <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
+                          <li class="nav-item">
+              
+                              <a href="#" class="nav-link">
+                                  <i class="fas fa-home"></i> Home
+                              </a>
+                          </li>
+                          <li class="nav-item active">
+                              <a href="#" class="nav-link">
+                                  <i class="fas fa-address-card"></i>About us</a>
+                          </li>
+                      </ul>
+                      <ul class="navbar-nav navbar-nav-right">
+              
+                          <li class="nav-item dropdown d-none d-xl-inline-block">
+                              <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown"
+                                 aria-expanded="false">
+                                  <span class="profile-text" id="show"></span>
+                                  <i style="font-size: smaller" class="fas fa-chevron-down"></i>
+                              </a>
+                              <div class="dropdown-menu dropdown-menu-right navbar-dropdown navbar-right" aria-labelledby="UserDropdown">
+                                  <a class="dropdown-item mt-2" onclick="profile()">
+                                      Profile
+                                  </a>
+                                  <!-- <a class="dropdown-item">
+                                      Change Password
+                                  </a> -->
+                                  <a class="dropdown-item" onclick="signOut()">
+                                      Sign Out
+                                  </a>
+                              </div>
+                          </li>
+                      </ul>
+                      <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                              data-toggle="offcanvas">
+                          <span class="icon-menu"></span>
+                      </button>
+                  </div>
+              </nav>
+              <div class="text-center" style="height: 65px" id="name">
+              </div>
+              <div class="text-center" style="height: 75px">
+                <div class="jumbotron">
+                <h1>Courses</h1>
+                </div>
+              </div>
+              <div class="text-center" style="height: 75px">
+
+              </div>
+              <div class="row" style="height: 250px">
+                  <div class="col-sm-2" ></div>
+                  <div class="col-sm-2" style=" padding: 0">
+                      <div style="height: 175px; background-image: url('../images/js.jpg')"></div>
+                      <div style="height: 25px"></div>
+                      <div class="text-center" style="height: 40px">
+                          <button type="button" class="btn btn-primary btn-lg" onclick="courseAdd('JS')">Start</button>
+                        </div>
+                  </div>
+                  <div class="col-sm-1" ></div>
+                  <div class="col-sm-2" style="padding: 0">
+                      <div style="height: 175px; background-image: url('../images/js.jpg')"></div>
+                      <div style="height: 25px"></div>
+                      <div class="text-center" style="height: 40px">
+                          <button type="button" class="btn btn-primary btn-lg">Start</button>
+                        </div>
+                  </div>
+                  <div class="col-sm-1" ></div>
+                  <div class="col-sm-2" style="padding: 0">
+                      <div style="height: 175px; background-image: url('../images/js.jpg')"></div>
+                      <div style="height: 25px"></div>
+                      <div class="text-center" style="height: 40px">
+                          <button type="button" class="btn btn-primary btn-lg">Start</button>
+                        </div>
+                  </div>
+              </div>
+</body>
+</html>
