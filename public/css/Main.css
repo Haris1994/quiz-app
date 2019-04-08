@@ -3,6 +3,58 @@ body{
     color: #333333;
     margin-top: 5rem;
 }
+.answer-fields{
+    padding: 1%;
+}
+.questions{
+    text-align: left;
+}
+.answer-fields-a{
+    padding: 1%;
+    border-radius: 25px;
+    color: rgb(32, 32, 32);
+    box-shadow: -3px 3px rgb(17, 124, 97), -2px 2px rgb(17, 124, 97), -1px 1px rgb(17, 124, 97);
+    border: 1px solid rgb(17, 124, 97);
+    position: relative;
+    text-decoration: none;
+    background-color: rgb(253, 253, 253);
+    width: 100%;
+	
+	-webkit-transition: all .1s ease;
+	-moz-transition: all .1s ease;
+	-ms-transition: all .1s ease;
+	-o-transition: all .1s ease;
+	transition: all .1s ease;
+}
+.answer-fields-b{
+    position: relative;
+    color: rgba(255,255,255,1);
+    text-decoration: none;
+    background-color: rgb(253, 253, 253);
+	
+	-webkit-transition: all .1s ease;
+	-moz-transition: all .1s ease;
+	-ms-transition: all .1s ease;
+	-o-transition: all .1s ease;
+	transition: all .1s ease;
+}
+
+.answer-fields-a:active {
+    -webkit-box-shadow: 0px 3px 0px rgb(17, 124, 97), 0px 3px 6px rgba(0,0,0,.9);
+    -moz-box-shadow: 0px 3px 0px rgb(17, 124, 97), 0px 3px 6px rgba(0,0,0,.9);
+    box-shadow: 0px 3px 0px rgb(17, 124, 97), 0px 3px 6px rgba(0,0,0,.9);
+    position: relative;
+    top: 6px;
+}
+
+.answer-fields-b:active {
+    -webkit-box-shadow: 0px 3px 0px rgba(219,31,5,1), 0px 3px 6px rgba(0,0,0,.9);
+    -moz-box-shadow: 0px 3px 0px rgba(219,31,5,1), 0px 3px 6px rgba(0,0,0,.9);
+    box-shadow: 0px 3px 0px rgba(219,31,5,1), 0px 3px 6px rgba(0,0,0,.9);
+    position: relative;
+    top: 6px;
+}
+
 .container{
     padding : 4%;
 }

@@ -27,15 +27,16 @@ app.use(multer({ dest: './uploads/'}).single('photo'));
 app.post('/user/photo',function(req,res){
 
     User.uploadPhoto(req.body.name,req.file.path).then((user) =>{
-        fs.readFile('./public/Account.html', null, function(err,data){
-            if(err){
-                res.writeHead(404);
-                res.write('File not found');
-            }else{
-                res.write(data);
-            }
-            res.end();
-        })
+        // fs.readFile('./public/Account.html', null, function(err,data){
+        //     if(err){
+        //         res.writeHead(404);
+        //         res.write('File not found');
+        //     }else{
+        //         res.write(data);
+        //     }
+        //     res.end();
+        // })
+        res.redirect('localhost:3000/Account.html');
     }).catch((e) => {   
         res.status(400).send(e);
     });
@@ -69,6 +70,23 @@ app.patch('/updateCourse', function(req,res){
 
     User.insertCourse(body.name, body.courseName).then((user) =>{
         res.status(200).send(user);
+    }).catch((e) =>{
+        res.status(400).send(e);
+    })
+})
+
+app.get('/getAllCourses' ,function(req,res){
+    Course.find({}).then(function(courses){
+        res.status(200).send(courses);
+    }).catch((e) =>{
+        res.status(400).send(e);
+    })
+})
+
+app.get('/getCourse/:uid', function(req, res){
+    let name = req.headers.data;
+    Course.findById(req.params.uid).then((course) =>{
+        res.status(200).send(course);
     }).catch((e) =>{
         res.status(400).send(e);
     })

@@ -9,7 +9,6 @@ let CourseSchema = new mongoose.Schema({
         minlength : 1,
         unique : true
     },
-    users : [String],
     questions :[{
         question : {
             type : String,
@@ -30,43 +29,8 @@ CourseSchema.methods.toJSON = function(){
     let course = this;
     let courseObject = course.toObject();
 
-    return _.pick(courseObject, ['name', 'likes']);
+    return _.pick(courseObject, ['_id', 'name', 'questions', 'likes']);
 };
-
-CourseSchema.statics.insertCourse = function(name,userName){
-    let Course = this;
-
-    return Course.findOne({name}).then((course) =>{
-        if(!course){
-            return Promise.reject();
-        }
-
-        return new Promise ((resolve, reject) => {
-
-            let found = user.courses.find(function(element) {
-                return element === courseName;
-              });
-
-            if(found===courseName){
-                console.log('Course already added')
-            }
-            else{
-
-                user.updateOne({$push :{courses:courseName}}, {new: true}, (err, doc) => {
-                    if (doc) {
-                        resolve(user);
-                    }
-                    else{
-                        reject();
-                    }
-                })
-            }
-        })
-            
-    }).catch((e) =>{
-        console.log(e);
-    })
-}
 
 let Course = mongoose.model('Course', CourseSchema);
 

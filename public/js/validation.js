@@ -39,11 +39,20 @@ const dataValidate = () =>{
                     'Content-Type':'application/json'
                 },
                 success : (response) =>{
+                    $.ajax({
+                        url : '/getAllCourses',
+                        type : 'GET',
+                        success : (result) =>{
+                            window.localStorage.setItem('courses', JSON.stringify(result));
+                        },
+                        error : function (){
+                            alert("error");
+                        }
+                    })
                     window.localStorage.setItem('name', response.name);
                     window.localStorage.setItem('email', response.email);
                     window.localStorage.setItem('_id', response._id);
                     window.localStorage.setItem('image',JSON.stringify(response.img));
-                    console.log(window.localStorage.getItem('image'));
                     window.location.replace("http://localhost:3000/courses.html");
                 },
                 error: function () {
@@ -54,22 +63,50 @@ const dataValidate = () =>{
 }
 
 const courseAdd = (courseName) =>{
-    console.log(window.localStorage);
+
+    window.localStorage.setItem('count', JSON.stringify(0));
+
+    let myArray = JSON.parse(window.localStorage.getItem('courses'));
+
+    let obj = myArray.find(o => o.name === courseName);
+
+    console.log(obj.questions[0].options[0]);
+    let courseId = obj._id;
+    window.localStorage.setItem('course', JSON.stringify(obj));
     let data = {
         name : window.localStorage.getItem('name'),
         courseName
     }
 
+
+
     $.ajax({
         url:'/updateCourse',
         type:'PATCH',
         data : JSON.stringify(data),
+        params : courseId,
         headers: {
             'Content-Type':'application/json'
         },
         success : (response) =>{
+
             console.log(response);
-            window.location.replace("http://localhost:3000/courses.html");
+            let data = courseName;
+            $.ajax({
+                url:'/getCourse/'+courseId,
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                dataType : "json",
+                success : (response) =>{
+                    console.log(response);
+                    window.localStorage.setItem('course', JSON.stringify(response));
+                    window.location.replace("http://localhost:3000/quiz.html");
+                },
+                error: function(){
+                    alert("error");
+                }
+            })
         },
         error: function () {
             alert("error");
@@ -122,4 +159,48 @@ const dataUpdate = () =>{
         }
     })
     }
+}
+
+const questionChange= () =>{
+    let course = JSON.parse(window.localStorage.getItem('course'));
+    let count = JSON.parse(window.localStorage.getItem('count'));
+    window.localStorage.setItem('counts', JSON.stringify(count))
+    document.getElementById('question').innerHTML = (course.questions[count].question);
+    document.getElementById('show').innerHTML = ('Hi, '+ window.localStorage.getItem('name')+'!');
+
+    $("div").remove(".answer-fields");
+    $("div").remove("answer-fields-a");
+
+    for(i=0; i<course.questions[count].options.length; i++){
+        var iDiv = document.createElement('div');
+        iDiv.className = 'answer-fields';
+        
+        var innerDiv = document.createElement('div');
+        innerDiv.className = 'answer-fields-a';
+        
+        iDiv.appendChild(innerDiv);
+
+        var newElement = document.createElement('input');
+        newElement.setAttribute('type', 'radio');
+        newElement.setAttribute('id', JSON.stringify(i));
+        newElement.setAttribute('class', 'opts');
+        newElement.setAttribute('name', 'option');
+        newElement.setAttribute('autocomplete', 'off');
+        newElement.setAttribute('autocorrect', 'off');
+        newElement.setAttribute('autocapitalize', 'off');
+        newElement.setAttribute('spellcheck', 'false');
+        newElement.setAttribute('placeholder', '');
+        newElement.setAttribute('value', '');
+        var newsElement = document.createElement('label');
+        newsElement.setAttribute('for', JSON.stringify(i));
+        newsElement.innerText = course.questions[count].options[i];
+
+        innerDiv.appendChild(newElement);
+        innerDiv.appendChild(newsElement);
+
+        $('#questions').append(iDiv);
+}
+
+    count++;
+    window.localStorage.setItem('count', JSON.stringify(count));
 }

@@ -10,13 +10,63 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="js/validation.js"></script>
   <script>
+      function what() {
+    
+    let course = JSON.parse(window.localStorage.getItem('course'));
+    let count = JSON.parse(window.localStorage.getItem('count'));
+    window.localStorage.setItem('counts', JSON.stringify(count))
+    document.getElementById('question').innerHTML = (course.questions[count].question);
+    document.getElementById('show').innerHTML = ('Hi, '+ window.localStorage.getItem('name')+'!');
+
+    for(i=0; i<course.questions[count].options.length; i++){
+        var iDiv = document.createElement('div');
+        iDiv.className = 'answer-fields';
+        
+        var innerDiv = document.createElement('div');
+        innerDiv.className = 'answer-fields-a';
+        
+        iDiv.appendChild(innerDiv);
+
+        var newElement = document.createElement('input');
+        newElement.setAttribute('type', 'radio');
+        newElement.setAttribute('id', JSON.stringify(i));
+        newElement.setAttribute('class', 'opts');
+        newElement.setAttribute('name', 'option');
+        newElement.setAttribute('autocomplete', 'off');
+        newElement.setAttribute('autocorrect', 'off');
+        newElement.setAttribute('autocapitalize', 'off');
+        newElement.setAttribute('spellcheck', 'false');
+        newElement.setAttribute('placeholder', '');
+        newElement.setAttribute('value', '');
+        var newsElement = document.createElement('label');
+        newsElement.setAttribute('for', JSON.stringify(i));
+        newsElement.innerText = course.questions[count].options[i];
+
+        innerDiv.appendChild(newElement);
+        innerDiv.appendChild(newsElement);
+
+        $('#questions').append(iDiv);
+    }
+
+    // document.getElementById('question').innerHTML = (course.questions[0].question);
+    // document.getElementById('show').innerHTML = ('Hi, '+ window.localStorage.getItem('name')+'!');
+    // document.getElementById('hbha').innerText = (course.questions[0].options[0]);
+    // document.getElementById('hbhb').innerText = (course.questions[0].options[1]);
+    // document.getElementById('hbhc').innerText = (course.questions[0].options[2]);
+    // document.getElementById('hbhd').innerText = (course.questions[0].options[3]);
+
+    
+    
+    
+    count++;
+    window.localStorage.setItem('count', JSON.stringify(count));
+
+};
     window.onload = function() {
 
 what();
 
-function what() {
-    document.getElementById('show').innerHTML = ('Hi, '+ window.localStorage.getItem('name')+'!');
-};
+
 
 }
   </script>
@@ -32,7 +82,7 @@ function what() {
                       <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
                           <li class="nav-item">
               
-                              <a href="#" class="nav-link">
+                              <a href="./courses.html" class="nav-link">
                                   <i class="fas fa-home"></i> Home
                               </a>
                           </li>
@@ -67,9 +117,38 @@ function what() {
               </nav>
               <div class="container">
                     <div class="sawad-da-kam">
-                        <div class="text-center" style="height: 65px; padding: 2%;" id="name">
-                            <p>asdasfadhbczvxczxfewgvzxc</p>
+                        <div class="text-left" style="height: 100%; padding: 2%;" id="questions">
+                            <h4 id="question"></h4>
+                            <!-- <div class="answer-fields" style="padding: 1%;">
+                            <div class="answer-fields-a" style="padding: 1%; border-radius: 25px;color: #333; box-shadow: -3px 3px rgb(17, 124, 97), -2px 2px rgb(17, 124, 97), -1px 1px rgb(17, 124, 97); border: 1px solid rgb(17, 124, 97);">
+                                <input type="radio" id="5866" class="opts" name="option" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="" value="">
+                                <label id="hbha" for="5866"></label>
+                            </div>
+                            </div>
+                            <div class="answer-fields" style="padding: 1%;">
+                            <div class="answer-fields-a" style="padding: 1%; border-radius: 25px;color: #333; box-shadow: -3px 3px rgb(17, 124, 97), -2px 2px rgb(17, 124, 97), -1px 1px rgb(17, 124, 97); border: 1px solid rgb(17, 124, 97);">
+                                <input type="radio" id="5867" class="opts" name="option" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="" value="">
+                                <label id="hbhb" for="5867"></label>
+                            </div>
+                            </div>
+                            <div class="answer-fields" style="padding: 1%;">
+                            <div class="answer-fields-a" style="padding: 1%; border-radius: 25px;color: #333; box-shadow: -3px 3px rgb(17, 124, 97), -2px 2px rgb(17, 124, 97), -1px 1px rgb(17, 124, 97); border: 1px solid rgb(17, 124, 97);">
+                                <input type="radio" id="5868" class="opts" name="option" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="" value="">
+                                <label id="hbhc" for="5868"></label>
+                            </div>
+                            </div>
+                            <div class="answer-fields" style="padding: 1%;">
+                            <div class="answer-fields-a" style="padding: 1%; border-radius: 25px;color: #333; box-shadow: -3px 3px rgb(17, 124, 97), -2px 2px rgb(17, 124, 97), -1px 1px rgb(17, 124, 97); border: 1px solid rgb(17, 124, 97);">
+                                <input type="radio" id="5869" class="opts" name="option" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="" value="">
+                                <label id="hbhd" for="5869"></label>
+                            </div>
+                            </div> -->
                         </div>          
+                    </div>
+                    <div class="text-right" style="height: 100%; padding: 2%;" id="name">
+                    <div class="next-button">
+                        <input class="answer-fields-b" type="button" value="Next Question" style="padding: 1%; border-radius: 25px;color: #333; box-shadow: -3px 3px rgb(17, 124, 97), -2px 2px rgb(17, 124, 97), -1px 1px rgb(17, 124, 97); border: 1px solid rgb(17, 124, 97);" onclick="questionChange()">
+                    </div>
                     </div>
                     </div>
 </body>

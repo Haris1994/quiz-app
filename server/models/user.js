@@ -74,7 +74,8 @@ UserSchema.statics.insertCourse = function(name,courseName){
               });
 
             if(found===courseName){
-                console.log('Course already added')
+                console.log('Course already added');
+                resolve(user);
             }
             else{
 
@@ -102,8 +103,6 @@ UserSchema.statics.updateUser = function(id,changeName, changeEmail){
             if(validator.isEmail(changeEmail)){
                 User.findByIdAndUpdate(id, {$set :{name:changeName , email:changeEmail}}, {new: true}, (err, doc) => {
                     if (doc) {
-                        console.log('a gaya yahan');
-                        console.log(doc);
                         resolve(doc);
                     }
                     else{
@@ -114,76 +113,6 @@ UserSchema.statics.updateUser = function(id,changeName, changeEmail){
                 reject();
             }
     })
-                
-    // return User.findOne({name}).then((user) =>{
-    //     if(!user){
-    //         return Promise.reject();
-    //     }
-
-    //     return new Promise ((resolve, reject) => {
-
-    //         if(name===changeName){
-    //             console.log('yahan pe11')
-    //             if(validator.isEmail(changeEmail)){
-    //                 user.updateOne({"email":changeEmail}, {upsert: true}, (err, doc) => {
-    //                     if (doc) {
-    //                         User.findOne({changeName}).then((user) =>{
-    //                             resolve(user);
-    //                         })
-    //                     }
-    //                     else{
-    //                         reject();
-    //                     }
-    //                 })
-    //             }else{
-    //                 reject();
-    //             }
-                
-    //         }
-    //         else if(user.email===changeEmail){
-    //             console.log('yahan pe1')
-    //             user.updateOne({"name":changeName}, {new:true}, (err, doc) => {
-    //                 if (doc) {
-    //                     User.findOne({name:changeName}).then((user) =>{
-    //                         console.log(user);
-    //                         resolve(user);
-    //                     })
-    //                     //resolve(user);
-    //                 }
-    //                 else{
-    //                     reject();
-    //                 }
-    //             })
-    //         }
-    //         else{
-    //             console.log('yahan pe')
-    //             if(validator.isEmail(changeEmail)){
-    //                 user.updateOne({"name":changeName},{"email":changeEmail}, {upsert: true}, (err, doc) => {
-    //                     if (doc) {
-    //                         resolve(doc);
-    //                     }
-    //                     else{
-    //                         reject();
-    //                     }
-    //                 })
-    //             }
-    //             else{
-    //                 user.updateOne({"name":changeName}, {upsert: true}, (err, doc) => {
-    //                     if (doc) {
-    //                         resolve(doc);
-    //                     }
-    //                     else{
-    //                         reject();
-    //                     }
-    //                 })
-    //             }
-                
-    //         }
-    //     })
-            
-    // }).catch((e) =>{
-    //     console.log(e);
-    // })
 }
 
 UserSchema.statics.findByCredentials = function(email,password)
