@@ -92,6 +92,18 @@ app.get('/getCourse/:uid', function(req, res){
     })
 })
 
+app.patch('/updateQuestion', function(req,res){
+    let body = _.pick(req.body, ['courseId', 'question']);
+    
+    Course.updateOne({"_id": body.courseId, "questions.question" : body.question} , {$set : {"questions.$.completed" : true}}, {new:true})
+    .then((doc) =>{
+        res.status(200).send(doc);
+    }).catch((e) =>{
+        res.status(400).send(e);
+    })
+          
+})
+
 app.patch('/updateUser', function(req,res){
     let body = _.pick(req.body, ['id', 'changeName', 'changeEmail']);
     User.updateUser(body.id, body.changeName, body.changeEmail).then((user) =>{

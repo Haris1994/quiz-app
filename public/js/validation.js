@@ -162,9 +162,50 @@ const dataUpdate = () =>{
 }
 
 const questionChange= () =>{
+    if($("input:radio[name='option']").is(":checked")){
     let course = JSON.parse(window.localStorage.getItem('course'));
     let count = JSON.parse(window.localStorage.getItem('count'));
-    window.localStorage.setItem('counts', JSON.stringify(count))
+    let question = course.questions[count].question;
+
+    console.log(course);
+    console.log(question);
+    data = {
+        courseId : course._id,
+        question
+    }
+    $.ajax({
+        url : '/updateQuestion',
+        type : 'PATCH',
+        data : JSON.stringify(data),
+        headers: {
+            'Content-Type':'application/json'
+        },
+        success : (response) =>{
+
+        },
+        error: function () {
+            alert("error");
+        }
+
+    })
+
+    count++;
+    if(count === course.questions.length){
+        $("div").remove(".questions-area");
+        $("div").remove(".answer-fields");
+        $("div").remove(".answer-fields-a");
+        $("div").remove(".next-button");
+
+        var iDiv = document.createElement('div');
+        iDiv.className = 'jumbotron';
+
+        let newElement = document.createElement('h1');
+        newElement.innerHTML = 'You have scored : '
+
+        iDiv.appendChild(newElement);
+
+        $('#sawad').append(iDiv);
+    }
     document.getElementById('question').innerHTML = (course.questions[count].question);
     document.getElementById('show').innerHTML = ('Hi, '+ window.localStorage.getItem('name')+'!');
 
@@ -200,7 +241,8 @@ const questionChange= () =>{
 
         $('#questions').append(iDiv);
 }
-
-    count++;
     window.localStorage.setItem('count', JSON.stringify(count));
+}else{
+    alert('No option has been selected. Please pick an option to proceed.');
+}
 }
