@@ -28,7 +28,11 @@ let UserSchema = new mongoose.Schema({
         required: true,
         minlength : 6
     },
-    courses : [String],
+    progress : [{
+        course : String,
+        totalQuestions : Number,
+        completedQuestions : {type : Number, default : 0}
+    }],
     image: String
 });
 
@@ -59,9 +63,13 @@ UserSchema.statics.uploadPhoto = function(name, imgData){
     })
 }
 
-UserSchema.statics.insertCourse = function(name,courseName){
+UserSchema.statics.insertCourse = function(name,courseName,count){
     let User = this;
 
+    let progres = {
+        "course" : courseName,
+        "completedQuestions" : JSON.parse(count)
+    }
     return User.findOne({name}).then((user) =>{
         if(!user){
             return Promise.reject();
@@ -69,17 +77,16 @@ UserSchema.statics.insertCourse = function(name,courseName){
 
         return new Promise ((resolve, reject) => {
 
-            let found = user.courses.find(function(element) {
-                return element === courseName;
+            let found = user.progress.find(function(element) {
+                return element.course === courseName;
               });
-
-            if(found===courseName){
+            
+            if(found){
                 console.log('Course already added');
                 resolve(user);
             }
             else{
-
-                user.updateOne({$push :{courses:courseName}}, {new: true}, (err, doc) => {
+                user.updateOne({$push :{"progress":progres}}, {new: true}, (err, doc) => {
                     if (doc) {
                         resolve(doc);
                     }

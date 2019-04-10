@@ -66,9 +66,9 @@ app.post('/login' , function(req,res){
 })
 
 app.patch('/updateCourse', function(req,res){
-    let body = _.pick(req.body, ['name', 'courseName']);
+    let body = _.pick(req.body, ['name', 'courseName', 'count']);
 
-    User.insertCourse(body.name, body.courseName).then((user) =>{
+    User.insertCourse(body.name, body.courseName, body.count).then((user) =>{
         res.status(200).send(user);
     }).catch((e) =>{
         res.status(400).send(e);
@@ -92,10 +92,10 @@ app.get('/getCourse/:uid', function(req, res){
     })
 })
 
-app.patch('/updateQuestion', function(req,res){
-    let body = _.pick(req.body, ['courseId', 'question']);
+app.patch('/updateSubject', function(req,res){
+    let body = _.pick(req.body, ['userId', 'courseName']);
     
-    Course.updateOne({"_id": body.courseId, "questions.question" : body.question} , {$set : {"questions.$.completed" : true}}, {new:true})
+    User.updateOne({"_id": body.userId, "progress.course" : body.courseName} , {$inc : {"progress.$.completedQuestions" : 1}}, {new:true})
     .then((doc) =>{
         res.status(200).send(doc);
     }).catch((e) =>{

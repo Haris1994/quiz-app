@@ -19,8 +19,7 @@ let CourseSchema = new mongoose.Schema({
         answer : {
             type : String,
             required : true
-        },
-        completed : Boolean
+        }
     }],
     likes : Number
 });

@@ -49,6 +49,7 @@ const dataValidate = () =>{
                             alert("error");
                         }
                     })
+                    window.localStorage.setItem('count', JSON.stringify(0));
                     window.localStorage.setItem('name', response.name);
                     window.localStorage.setItem('email', response.email);
                     window.localStorage.setItem('_id', response._id);
@@ -64,18 +65,18 @@ const dataValidate = () =>{
 
 const courseAdd = (courseName) =>{
 
-    window.localStorage.setItem('count', JSON.stringify(0));
-
     let myArray = JSON.parse(window.localStorage.getItem('courses'));
 
     let obj = myArray.find(o => o.name === courseName);
-
-    console.log(obj.questions[0].options[0]);
     let courseId = obj._id;
     window.localStorage.setItem('course', JSON.stringify(obj));
+
+    let count = window.localStorage.getItem('count');
+
     let data = {
         name : window.localStorage.getItem('name'),
-        courseName
+        courseName,
+        count
     }
 
 
@@ -84,14 +85,10 @@ const courseAdd = (courseName) =>{
         url:'/updateCourse',
         type:'PATCH',
         data : JSON.stringify(data),
-        params : courseId,
         headers: {
             'Content-Type':'application/json'
         },
         success : (response) =>{
-
-            console.log(response);
-            let data = courseName;
             $.ajax({
                 url:'/getCourse/'+courseId,
                 headers: {
@@ -165,16 +162,18 @@ const questionChange= () =>{
     if($("input:radio[name='option']").is(":checked")){
     let course = JSON.parse(window.localStorage.getItem('course'));
     let count = JSON.parse(window.localStorage.getItem('count'));
-    let question = course.questions[count].question;
+    // let question = course.questions[count].question;
 
-    console.log(course);
-    console.log(question);
+    // console.log(course);
+    // console.log(question);
+    let userId = window.localStorage.getItem('_id');
+    let courseName = course.name;
     data = {
-        courseId : course._id,
-        question
+        userId,
+        courseName
     }
     $.ajax({
-        url : '/updateQuestion',
+        url : '/updateSubject',
         type : 'PATCH',
         data : JSON.stringify(data),
         headers: {
@@ -241,6 +240,7 @@ const questionChange= () =>{
 
         $('#questions').append(iDiv);
 }
+console.log(count);
     window.localStorage.setItem('count', JSON.stringify(count));
 }else{
     alert('No option has been selected. Please pick an option to proceed.');
