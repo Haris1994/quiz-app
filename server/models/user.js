@@ -40,7 +40,7 @@ UserSchema.methods.toJSON = function(){
     let user = this;
     let userObject = user.toObject();
 
-    return _.pick(userObject, ['name', '_id', 'email', 'image']);
+    return _.pick(userObject, ['name', '_id', 'email', 'image', 'progress']);
 }
 
 UserSchema.statics.uploadPhoto = function(name, imgData){
@@ -63,12 +63,12 @@ UserSchema.statics.uploadPhoto = function(name, imgData){
     })
 }
 
-UserSchema.statics.insertCourse = function(name,courseName,count){
+UserSchema.statics.insertCourse = function(name,courseName,totalQuestions){
     let User = this;
 
     let progres = {
         "course" : courseName,
-        "completedQuestions" : JSON.parse(count)
+        "totalQuestions" : JSON.parse(totalQuestions)
     }
     return User.findOne({name}).then((user) =>{
         if(!user){
@@ -83,7 +83,14 @@ UserSchema.statics.insertCourse = function(name,courseName,count){
             
             if(found){
                 console.log('Course already added');
-                resolve(user);
+                User.findOneAndUpdate({"name" : name, "progress.course": courseName}, {$set : {"progress.$.totalQuestions" : totalQuestions}}, {new : true}, (err,doc) =>{
+                    if(doc){
+                        resolve(user)
+                    }else{
+                        reject();
+                    }
+                })
+                
             }
             else{
                 user.updateOne({$push :{"progress":progres}}, {new: true}, (err, doc) => {

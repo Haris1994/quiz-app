@@ -66,9 +66,8 @@ app.post('/login' , function(req,res){
 })
 
 app.patch('/updateCourse', function(req,res){
-    let body = _.pick(req.body, ['name', 'courseName', 'count']);
-
-    User.insertCourse(body.name, body.courseName, body.count).then((user) =>{
+    let body = _.pick(req.body, ['name', 'courseName', 'totalQuestions']);
+    User.insertCourse(body.name, body.courseName, body.totalQuestions).then((user) =>{
         res.status(200).send(user);
     }).catch((e) =>{
         res.status(400).send(e);
@@ -84,7 +83,6 @@ app.get('/getAllCourses' ,function(req,res){
 })
 
 app.get('/getCourse/:uid', function(req, res){
-    let name = req.headers.data;
     Course.findById(req.params.uid).then((course) =>{
         res.status(200).send(course);
     }).catch((e) =>{
@@ -125,6 +123,14 @@ app.get('/numberOfUsersInaCourse' , function(req,res){
     
         res.send(userMap.length);  
       });
+})
+
+app.get('/getUser/:uid', function(req, res){
+    User.findById(req.params.uid).then((user) =>{
+        res.status(200).send(user);
+    }).catch((e) =>{
+        res.status(400).send(e);
+    })
 })
 
 app.get('/users/me' , function(req,res){

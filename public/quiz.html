@@ -10,10 +10,27 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="js/validation.js"></script>
   <script>
-      function what() {
+    function what() {
     
     let course = JSON.parse(window.localStorage.getItem('course'));
     let count = JSON.parse(window.localStorage.getItem('count'));
+
+    if(count === course.questions.length){
+        $("div").remove(".questions-area");
+        $("div").remove(".answer-fields");
+        $("div").remove(".answer-fields-a");
+        $("div").remove(".next-button");
+
+        var iDiv = document.createElement('div');
+        iDiv.className = 'jumbotron';
+
+        let newElement = document.createElement('h1');
+        newElement.innerHTML = 'You have already completed the course'
+
+        iDiv.appendChild(newElement);
+
+        $('#sawad').append(iDiv);
+    }
 
     document.getElementById('question').innerHTML = (course.questions[count].question);
     document.getElementById('show').innerHTML = ('Hi, '+ window.localStorage.getItem('name')+'!');
@@ -48,7 +65,7 @@
         $('#questions').append(iDiv);
     }
 
-    window.localStorage.setItem('count', JSON.stringify(count));
+    //window.localStorage.setItem('count', JSON.stringify(count));
 
 };
     window.onload = function() {
@@ -69,7 +86,7 @@ what();
                       <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
                           <li class="nav-item">
               
-                              <a href="./courses.html" class="nav-link">
+                              <a class="nav-link" onclick="homePage()">
                                   <i class="fas fa-home"></i> Home
                               </a>
                           </li>

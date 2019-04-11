@@ -49,7 +49,6 @@ const dataValidate = () =>{
                             alert("error");
                         }
                     })
-                    window.localStorage.setItem('count', JSON.stringify(0));
                     window.localStorage.setItem('name', response.name);
                     window.localStorage.setItem('email', response.email);
                     window.localStorage.setItem('_id', response._id);
@@ -69,16 +68,17 @@ const courseAdd = (courseName) =>{
 
     let obj = myArray.find(o => o.name === courseName);
     let courseId = obj._id;
-    window.localStorage.setItem('course', JSON.stringify(obj));
+    let totalQuestions = obj.questions.length;
 
-    let count = window.localStorage.getItem('count');
+    window.localStorage.setItem('course', JSON.stringify(obj));
 
     let data = {
         name : window.localStorage.getItem('name'),
         courseName,
-        count
+        totalQuestions
     }
 
+    let userId = window.localStorage.getItem('_id');
 
 
     $.ajax({
@@ -89,6 +89,24 @@ const courseAdd = (courseName) =>{
             'Content-Type':'application/json'
         },
         success : (response) =>{
+
+            $.ajax({
+                url:'/getUser/'+userId,
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                dataType : "json",
+                success : (response) =>{
+                    let progressArray = response.progress;
+                    let element = progressArray.find(progress => progress.course === courseName);
+                    let count = element.completedQuestions;
+                    window.localStorage.setItem('count', JSON.stringify(count));
+                },
+                error: function(){
+                    alert("error");
+                }
+            })
+
             $.ajax({
                 url:'/getCourse/'+courseId,
                 headers: {
@@ -245,4 +263,19 @@ console.log(count);
 }else{
     alert('No option has been selected. Please pick an option to proceed.');
 }
+}
+
+const homePage = () =>{
+    $.ajax({
+        url : '/getAllCourses',
+        type : 'GET',
+        success : (result) =>{
+            window.localStorage.setItem('courses', JSON.stringify(result));
+        },
+        error : function (){
+            alert("error");
+        }
+    })
+
+    window.location.replace("http://localhost:3000/courses.html");
 }
