@@ -31,7 +31,8 @@ let UserSchema = new mongoose.Schema({
     progress : [{
         course : String,
         totalQuestions : Number,
-        completedQuestions : {type : Number, default : 0}
+        completedQuestions : {type : Number, default : 0},
+        score : {type : Number, default : 0}
     }],
     image: String
 });

@@ -57,6 +57,7 @@
         newElement.setAttribute('value', '');
         var newsElement = document.createElement('label');
         newsElement.setAttribute('for', JSON.stringify(i));
+        newsElement.setAttribute('name', JSON.stringify(i));
         newsElement.innerText = course.questions[count].options[i];
 
         innerDiv.appendChild(newElement);

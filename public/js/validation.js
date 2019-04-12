@@ -178,17 +178,32 @@ const dataUpdate = () =>{
 
 const questionChange= () =>{
     if($("input:radio[name='option']").is(":checked")){
+
+        $("input[type='radio']:checked").each(function() {
+            var idVal = $(this).attr("id");
+            let val = ($("label[for='"+idVal+"']").text());
+            window.localStorage.setItem('val' , val);
+        });
     let course = JSON.parse(window.localStorage.getItem('course'));
     let count = JSON.parse(window.localStorage.getItem('count'));
-    // let question = course.questions[count].question;
-
-    // console.log(course);
-    // console.log(question);
+    let rightOption = course.questions[count].answer;
+    let selectedOption = window.localStorage.getItem('val');
+    function answered(rightOption, selectedOption){
+        if(selectedOption===rightOption)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    let answer = answered(rightOption,selectedOption);
     let userId = window.localStorage.getItem('_id');
     let courseName = course.name;
     data = {
         userId,
-        courseName
+        courseName,
+        answer
     }
     $.ajax({
         url : '/updateSubject',
@@ -208,6 +223,26 @@ const questionChange= () =>{
 
     count++;
     if(count === course.questions.length){
+        
+        let userId = window.localStorage.getItem('_id');
+        $.ajax({
+            url:'/getUser/'+userId,
+            headers: {
+                'Content-Type':'application/json'
+            },
+            dataType : "json",
+            success : (response) =>{
+                let progressArray = response.progress;
+                let element = progressArray.find(progress => progress.course === courseName);
+                let totalQuestions = element.totalQuestions;
+                let score = element.score;
+                window.localStorage.setItem('total' , JSON.stringify(totalQuestions));
+                window.localStorage.setItem('score' , JSON.stringify(score));
+            },
+            error: function(){
+                alert("error");
+            }
+        })
         $("div").remove(".questions-area");
         $("div").remove(".answer-fields");
         $("div").remove(".answer-fields-a");
@@ -215,9 +250,10 @@ const questionChange= () =>{
 
         var iDiv = document.createElement('div');
         iDiv.className = 'jumbotron';
-
+        let total = JSON.parse(window.localStorage.getItem('total'));
+        let score = JSON.parse(window.localStorage.getItem('score'));
         let newElement = document.createElement('h1');
-        newElement.innerHTML = 'You have scored : '
+        newElement.innerHTML = ('You have scored : ' + score + ' out of ' + total);
 
         iDiv.appendChild(newElement);
 
@@ -251,6 +287,7 @@ const questionChange= () =>{
         newElement.setAttribute('value', '');
         var newsElement = document.createElement('label');
         newsElement.setAttribute('for', JSON.stringify(i));
+        newsElement.setAttribute('name', JSON.stringify(i));
         newsElement.innerText = course.questions[count].options[i];
 
         innerDiv.appendChild(newElement);

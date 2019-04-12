@@ -91,15 +91,23 @@ app.get('/getCourse/:uid', function(req, res){
 })
 
 app.patch('/updateSubject', function(req,res){
-    let body = _.pick(req.body, ['userId', 'courseName']);
-    
+    let body = _.pick(req.body, ['userId', 'courseName', 'answer']);
+
+    if(body.answer){
+        User.updateOne({"_id": body.userId, "progress.course" : body.courseName} , {$inc : {"progress.$.completedQuestions" : 1, "progress.$.score" : 1}}, {new:true})
+    .then((doc) =>{
+        res.status(200).send(doc);
+    }).catch((e) =>{
+        res.status(400).send(e);
+    })
+    }else{
     User.updateOne({"_id": body.userId, "progress.course" : body.courseName} , {$inc : {"progress.$.completedQuestions" : 1}}, {new:true})
     .then((doc) =>{
         res.status(200).send(doc);
     }).catch((e) =>{
         res.status(400).send(e);
     })
-          
+}
 })
 
 app.patch('/updateUser', function(req,res){
