@@ -8,7 +8,7 @@ const dataValidation = () =>{
         password
     }
             $.ajax({
-                url:'/register',
+                url:'/user/register',
                 type:'POST',
                 data : JSON.stringify(data),
                 headers: {
@@ -32,7 +32,7 @@ const dataValidate = () =>{
         password
     }
             $.ajax({
-                url:'/login',
+                url:'/user/login',
                 type:'POST',
                 data : JSON.stringify(data),
                 headers: {
@@ -40,7 +40,7 @@ const dataValidate = () =>{
                 },
                 success : (response) =>{
                     $.ajax({
-                        url : '/getAllCourses',
+                        url : '/course/getAllCourses',
                         type : 'GET',
                         success : (result) =>{
                             window.localStorage.setItem('courses', JSON.stringify(result));
@@ -49,11 +49,12 @@ const dataValidate = () =>{
                             alert("error");
                         }
                     })
+                    window.location.replace("http://localhost:3000/courses.html");
                     window.localStorage.setItem('name', response.name);
                     window.localStorage.setItem('email', response.email);
                     window.localStorage.setItem('_id', response._id);
-                    window.localStorage.setItem('image',JSON.stringify(response.img));
-                    window.location.replace("http://localhost:3000/courses.html");
+                    window.localStorage.setItem('image',response.image);
+                    //window.location.replace("http://localhost:3000/courses.html");
                 },
                 error: function () {
                     alert("error");
@@ -82,7 +83,7 @@ const courseAdd = (courseName) =>{
 
 
     $.ajax({
-        url:'/updateCourse',
+        url:'/user/updateCourse',
         type:'PATCH',
         data : JSON.stringify(data),
         headers: {
@@ -91,7 +92,7 @@ const courseAdd = (courseName) =>{
         success : (response) =>{
 
             $.ajax({
-                url:'/getUser/'+userId,
+                url:'/user/getUser/'+userId,
                 headers: {
                     'Content-Type':'application/json'
                 },
@@ -101,27 +102,28 @@ const courseAdd = (courseName) =>{
                     let element = progressArray.find(progress => progress.course === courseName);
                     let count = element.completedQuestions;
                     window.localStorage.setItem('count', JSON.stringify(count));
-                },
-                error: function(){
-                    alert("error");
-                }
-            })
-
-            $.ajax({
-                url:'/getCourse/'+courseId,
-                headers: {
-                    'Content-Type':'application/json'
-                },
-                dataType : "json",
-                success : (response) =>{
-                    console.log(response);
-                    window.localStorage.setItem('course', JSON.stringify(response));
                     window.location.replace("http://localhost:3000/quiz.html");
                 },
                 error: function(){
                     alert("error");
                 }
             })
+
+            // $.ajax({
+            //     url:'/getCourse/'+courseId,
+            //     headers: {
+            //         'Content-Type':'application/json'
+            //     },
+            //     dataType : "json",
+            //     success : (response) =>{
+            //         console.log(response);
+            //         window.localStorage.setItem('course', JSON.stringify(response));
+            //         window.location.replace("http://localhost:3000/quiz.html");
+            //     },
+            //     error: function(){
+            //         alert("error");
+            //     }
+            // })
         },
         error: function () {
             alert("error");
@@ -157,7 +159,7 @@ const dataUpdate = () =>{
     }
 
     $.ajax({
-        url:'/updateUser',
+        url:'/user/updateUser',
         type:'PATCH',
         data : JSON.stringify(data),
         headers: {
@@ -206,7 +208,7 @@ const questionChange= () =>{
         answer
     }
     $.ajax({
-        url : '/updateSubject',
+        url : '/user/updateSubject',
         type : 'PATCH',
         data : JSON.stringify(data),
         headers: {
@@ -225,8 +227,13 @@ const questionChange= () =>{
     if(count === course.questions.length){
         
         let userId = window.localStorage.getItem('_id');
+        $("div").remove(".questions-area");
+        $("div").remove(".answer-fields");
+        $("div").remove(".answer-fields-a");
+        $("div").remove(".next-button");
+
         $.ajax({
-            url:'/getUser/'+userId,
+            url:'/user/getUser/'+userId,
             headers: {
                 'Content-Type':'application/json'
             },
@@ -236,28 +243,20 @@ const questionChange= () =>{
                 let element = progressArray.find(progress => progress.course === courseName);
                 let totalQuestions = element.totalQuestions;
                 let score = element.score;
-                window.localStorage.setItem('total' , JSON.stringify(totalQuestions));
-                window.localStorage.setItem('score' , JSON.stringify(score));
+                var iDiv = document.createElement('div');
+                iDiv.className = 'jumbotron';
+                let newElement = document.createElement('h1');
+                newElement.innerHTML = ('You have scored : ' + score + ' out of ' + totalQuestions);
+
+                iDiv.appendChild(newElement);
+
+                $('#sawad').append(iDiv);
             },
             error: function(){
                 alert("error");
             }
         })
-        $("div").remove(".questions-area");
-        $("div").remove(".answer-fields");
-        $("div").remove(".answer-fields-a");
-        $("div").remove(".next-button");
-
-        var iDiv = document.createElement('div');
-        iDiv.className = 'jumbotron';
-        let total = JSON.parse(window.localStorage.getItem('total'));
-        let score = JSON.parse(window.localStorage.getItem('score'));
-        let newElement = document.createElement('h1');
-        newElement.innerHTML = ('You have scored : ' + score + ' out of ' + total);
-
-        iDiv.appendChild(newElement);
-
-        $('#sawad').append(iDiv);
+        
     }
     document.getElementById('question').innerHTML = (course.questions[count].question);
     document.getElementById('show').innerHTML = ('Hi, '+ window.localStorage.getItem('name')+'!');
@@ -304,7 +303,7 @@ console.log(count);
 
 const homePage = () =>{
     $.ajax({
-        url : '/getAllCourses',
+        url : '/course/getAllCourses',
         type : 'GET',
         success : (result) =>{
             window.localStorage.setItem('courses', JSON.stringify(result));

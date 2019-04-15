@@ -15,6 +15,7 @@
     what();
     
     function what() {
+        document.getElementById('image').src = "data:image/jpeg;base64,"+window.localStorage.getItem('image');
         document.getElementById('show-name').innerHTML = (window.localStorage.getItem('name'));
         document.getElementById('show-email').innerHTML = (window.localStorage.getItem('email'));
         document.getElementById('show').innerHTML = ('Hi, '+ window.localStorage.getItem('name')+'!');
@@ -74,7 +75,7 @@
     <div class="container-fluid">
         <div class="sawad-da-kam">
         <div class="media">
-            <img class="rounded-circle account-img" src="images/container-bg.png">
+            <img class="rounded-circle account-img" id="image">
             <!--<img class="rounded-circle account-img" src="{{ url_for('static',filename='profile_pics/flower.jpg') }}">-->
             <div class="media-body">
                 <h2 class="account-heading" id="show-name"></h2>
