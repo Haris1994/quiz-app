@@ -39,6 +39,7 @@ const dataValidate = () =>{
                     'Content-Type':'application/json'
                 },
                 success : (response) =>{
+                    window.location.replace("http://localhost:3000/courses.html");
                     $.ajax({
                         url : '/course/getAllCourses',
                         type : 'GET',
@@ -49,7 +50,7 @@ const dataValidate = () =>{
                             alert("error");
                         }
                     })
-                    window.location.replace("http://localhost:3000/courses.html");
+                    // window.location.replace("http://localhost:3000/courses.html");
                     window.localStorage.setItem('name', response.name);
                     window.localStorage.setItem('email', response.email);
                     window.localStorage.setItem('_id', response._id);

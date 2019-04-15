@@ -20829,8 +20829,8 @@ ul li {
 	}
 
 .flip-container, .front, .back {
-	width: 320px;
-	height: 480px;
+	width: 225px;
+	height: 175px;
 }
 
 /* flip speed goes here */
