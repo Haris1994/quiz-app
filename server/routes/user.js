@@ -6,7 +6,7 @@ const user_controller = require('../controllers/userController');
 
 
 
-router.post('/photo', user_controller.uploadPhoto);
+router.post('/photo/:uid', user_controller.uploadPhoto);
 router.post('/register', user_controller.register);
 router.post('/login', user_controller.login);
 router.patch('/updateCourse', user_controller.updateCourse);

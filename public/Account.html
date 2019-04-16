@@ -15,12 +15,35 @@
     what();
     
     function what() {
-        document.getElementById('image').src = "data:image/jpeg;base64,"+window.localStorage.getItem('image');
-        document.getElementById('show-name').innerHTML = (window.localStorage.getItem('name'));
-        document.getElementById('show-email').innerHTML = (window.localStorage.getItem('email'));
-        document.getElementById('show').innerHTML = ('Hi, '+ window.localStorage.getItem('name')+'!');
-        document.getElementsByName('changeEmail')[0].value=window.localStorage.getItem('email');
-        document.getElementsByName('changeName')[0].value=window.localStorage.getItem('name');
+
+        let userId = window.localStorage.getItem('_id');
+        $.ajax({
+            url:'/user/getUser/'+userId,
+            headers: {
+                'Content-Type':'application/json'
+            },
+            dataType : "json",
+            success : (response) =>{
+                window.localStorage.setItem('image', response.image);
+                document.getElementById('image').src = (window.localStorage.getItem('image')).replace('public/','');
+                document.getElementById('show-name').innerHTML = (window.localStorage.getItem('name'));
+                document.getElementById('show-email').innerHTML = (window.localStorage.getItem('email'));
+                document.getElementById('show').innerHTML = ('Hi, '+ window.localStorage.getItem('name')+'!');
+                document.getElementsByName('changeEmail')[0].value=window.localStorage.getItem('email');
+                document.getElementsByName('changeName')[0].value=window.localStorage.getItem('name');
+                document.getElementById('AwesomeForm').action = "/user/photo/"+window.localStorage.getItem('_id');
+            },
+            error: function () {
+                alert("error");
+            }
+        })
+        // document.getElementById('image').src = (window.localStorage.getItem('image')).replace('public/','');
+        // document.getElementById('show-name').innerHTML = (window.localStorage.getItem('name'));
+        // document.getElementById('show-email').innerHTML = (window.localStorage.getItem('email'));
+        // document.getElementById('show').innerHTML = ('Hi, '+ window.localStorage.getItem('name')+'!');
+        // document.getElementsByName('changeEmail')[0].value=window.localStorage.getItem('email');
+        // document.getElementsByName('changeName')[0].value=window.localStorage.getItem('name');
+        // document.getElementById('AwesomeForm').action = "/user/photo/"+window.localStorage.getItem('_id');
     };
     
     }
@@ -80,7 +103,7 @@
             <div class="media-body">
                 <h2 class="account-heading" id="show-name"></h2>
                 <p class="text-secondary" id="show-email"></p>
-                <form id="AwesomeForm" action="/user/photo" enctype="multipart/form-data" method="post">
+                <form id="AwesomeForm" enctype="multipart/form-data" method="post">
                     <div>
                     <input type="file" name="photo"></button>
                     <input id ="formName" type="text" name ="name" style="width: 0px; height: 0px;">

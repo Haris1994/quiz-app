@@ -21,7 +21,7 @@ const app = express();
 app.use(express.static(publicPath));
 app.use(bodyParser.json());
 
-app.use(multer({ dest: './uploads/'}).single('photo'));
+//app.use(multer({ dest: './uploads/'}).single('photo'));
 
 app.use('/user', usersRouter);
 app.use('/course' , courseRouter);

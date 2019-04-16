@@ -3,18 +3,21 @@ const _ = require('lodash');
 const fs = require('fs');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
+const formidable = require('formidable');
 
 
 exports.uploadPhoto = function(req, res) {
-    let body = _.pick(req.body, ['name']);
-    let name = body.name;
-    let imgData = req.file.path;
-
-    User.findOne({name}).then((user) =>{
-        if(!user){
-            res.status(400).send('No user Found');
+    let id = req.params.uid;
+    let form = new formidable.IncomingForm();
+    form.uploadDir = "./public/images";
+    form.keepExtensions = true;
+    form.maxFieldsSize = 10 * 1024 * 1024;
+    form.parse(req, (err, fields, file) =>{
+        if(err){
+            res.status(400).send('Some error occured');
         }
-        user.updateOne({$set:{"image":imgData}}, {new: true}, (err, doc) =>{
+
+        User.findByIdAndUpdate(id, {$set :{"image" : file.photo.path}}, {new: true}, (err, doc) => {
             if (doc) {
                 res.redirect('http://localhost:3000/Account.html');
             }
@@ -23,7 +26,23 @@ exports.uploadPhoto = function(req, res) {
             }
         })
         
+        // User.findOne({"_id" : id}).then((user) =>{
+        //     if(!user){
+        //         res.status(400).send('No user Found');
+        //     }
+        //     user.updateOne({$set:{"image":file.photo.path}}, {new: true}, (err, doc) =>{
+        //         if (doc) {
+        //             res.redirect('http://localhost:3000/Account.html');
+        //         }
+        //         else{
+        //             res.status(400).send('Some error occured');
+        //         }
+        //     })
+            
+        // })
+
     })
+    
 };
 
 exports.register = function(req,res) {
